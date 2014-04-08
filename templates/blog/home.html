@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Blog Home{% endblock %}</title>
+    </head>
+    <body>
+        <section id="content">
+            {% block content %}
+            <h1>PGenesis Blog</h1>
+            <table>
+            <tbody>
+            <tr>
+                <a href="{% url "blog_home" %}">Home</a>
+                 | <a href="{% url "blog_write" %}">Write</a>
+                {% for category in categories %}
+                 | <a href="{% url "blog_category" category.id %}">{{ category.name }}</a>
+                {% endfor %}
+            </tr>
+            {% for article in articles %}
+                <tr>
+                    <td><h3>{{ article.title }}</h3></td>
+                    <td>{{ article.category }} - {{ article.author }} - {{ article.date|date:"SHORT_DATE_FORMAT" }}</td>
+                </tr>
+                <tr>
+                    <td>{{ article.content|truncatewords_html:25 }}</td>
+                </tr>
+                <tr>
+                    <td><a href="{% url "blog_read" article.id article.slug %}">Read more</a></td>
+                </td>
+            {% empty %}
+                <p>No articles.</p>
+            {% endfor %}
+            </tbody>
+            </table>
+            {% if is_paginated %}
+                <div class="pagination">
+                {% if page_obj.has_previous %} 
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a> -
+                {% endif %} 
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                {% if page_obj.has_next %}
+                    - <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+                </div>
+            {% endif %}
+            {% endblock %}
+        </section>
+    </body>
+</html>

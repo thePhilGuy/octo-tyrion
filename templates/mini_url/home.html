@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}PG's URL shortener{% endblock %}</title>
+    </head>
+    <body>
+        <section id="content">
+            {% block content %}
+            <h1>PG's URL shortener</h1>
+            <p><a href="{% url "new_link" %}">Shorten an URL</a></p>
+            <ul>
+                {% for link in links %}
+                <li>
+                    {{ link.long_url }} via 
+                    <a href="{% url "target" short_url=link.short_url %}">
+                    http://localhost:8000/m/{{ link.short_url }}/ </a> 
+                    ({{ link.counter }} clicks) - 
+                    Posted by {{ link.author }} -
+                    <a href="{% url "edit_link" short_url=link.short_url %}">Edit Link</a>
+                </li>
+                {% empty %}
+                <li>No links.</li>
+                {% endfor %}
+            </ul>
+            {% endblock %}
+        </section>
+    </body>
+</html>

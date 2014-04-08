@@ -1,0 +1,27 @@
+{% extends "blog/home.html" %}
+    
+    {% block title %}{{ article.title }}{% endblock %}
+    
+    {% block content %}
+        <h1>{{ article.title }} <span class="small">in {{ article.category.name }}</span></h1>
+        <p><i>Written by </i>{{ article.author }}, <i>on {{ article.date|date:"DATE_FORMAT" }}</i></p>
+        <p>{{ article.content|linebreaks }}</p>
+        
+        <h3>Comments</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit">
+        </form>
+        
+        
+        {% for comment in comments %}
+        <p>{{ comment.author }} - {{ comment.content }}</p>
+        {% empty %}
+        <p>Be the first to post a comment...</p>
+        {% endfor %}
+        
+        <a href="{% url "blog_edit" article.id article.slug %}">Edit Article</a>
+        <a href="{% url "blog_home" %}"><- Home</a>
+    {% endblock %}
+    

@@ -1,0 +1,13 @@
+{% extends "mini_url/home.html" %}
+
+    {% block title %}Shorten an URL{% endblock %}
+    
+    {% block content %}
+        <h1>Shorten an URL</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit">
+        </form>
+        <a href="{% url "Mini_home" %}"><- Home</a>
+    {% endblock %}
